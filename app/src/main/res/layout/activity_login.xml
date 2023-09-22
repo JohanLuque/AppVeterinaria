@@ -16,8 +16,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
-
+        android:id="@+id/etDni"
+        android:layout_marginBottom="25dp"
         android:hint="DNI"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/etContrasena"
+        android:layout_marginBottom="25dp"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btLogin"
+        android:text="Iniciar sesion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>
