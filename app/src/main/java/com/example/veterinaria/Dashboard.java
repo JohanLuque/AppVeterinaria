@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class Dashboard extends AppCompatActivity {
-    Button btAbrirCliente;
+    Button btAbrirCliente, btAbrirMascota;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +21,16 @@ public class Dashboard extends AppCompatActivity {
                 abrirActivity(RegistarCliente.class);
             }
         });
+        btAbrirMascota.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirActivity(RegistrarMascota.class);
+            }
+        });
     }
     private void loadUI(){
         btAbrirCliente = findViewById(R.id.btAbrirCliente);
+        btAbrirMascota = findViewById(R.id.btAbrirMascota);
     }
     private void abrirActivity(Class variable){
         startActivity(new Intent(getApplicationContext(), variable));
