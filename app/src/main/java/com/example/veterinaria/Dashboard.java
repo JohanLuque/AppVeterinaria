@@ -18,7 +18,7 @@ public class Dashboard extends AppCompatActivity {
         btAbrirCliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrirActivity(Dashboard.class);
+                abrirActivity(RegistarCliente.class);
             }
         });
     }

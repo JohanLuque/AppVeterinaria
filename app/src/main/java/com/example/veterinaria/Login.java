@@ -60,8 +60,6 @@ public class Login extends AppCompatActivity {
     }
     private void login(){
         String URlUpdate = Utilidades.URL + "cliente.php";
-        dni = etDni.getText().toString().trim();
-        contrasena = etContrasena.getText().toString().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URlUpdate, new Response.Listener<String>() {
             @Override
@@ -73,7 +71,7 @@ public class Login extends AppCompatActivity {
                     if (login) {
                         startActivity(new Intent(getApplicationContext(), Dashboard.class));
                     } else {
-                        Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                        toast("Usuario o contraseña incorrecta");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -82,7 +80,7 @@ public class Login extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Algo anda mal", Toast.LENGTH_SHORT).show();
+                toast("Algo anda mal");
             }
         }){
             @Nullable
@@ -97,5 +95,7 @@ public class Login extends AppCompatActivity {
         };
         Volley.newRequestQueue(getApplicationContext()).add(stringRequest);
     }
-
+    private void toast(String mensaje){
+        Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+    }
 }
