@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,19 +16,23 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
     Button btLogin;
     EditText etDni, etContrasena;
+    int idcliente;
     String dni, contrasena;
+    final String url ="http://192.168.18.12:81/veterinaria/controllers/cliente.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,17 +64,51 @@ public class Login extends AppCompatActivity {
         }
     }
     private void login(){
-        String URlUpdate = Utilidades.URL + "cliente.php";
+        //String URlUpdate = Utilidades.URL + "cliente.php";
+        Uri.Builder urlnueva = Uri.parse(url).buildUpon();
+        urlnueva.appendQueryParameter("operacion", "login");
+        urlnueva.appendQueryParameter("dni", dni);
+        urlnueva.appendQueryParameter("claveAcceso", contrasena);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URlUpdate, new Response.Listener<String>() {
+        String URLN = urlnueva.build().toString();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLN, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try{
+                    Log.i("idcliente", String.valueOf(response.getInt("idcliente")));
+                    boolean login = response.getBoolean("login");
+                    if (login) {
+                        idcliente = response.getInt("idcliente");
+                        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                        intent.putExtra("idcliente", idcliente);
+                        startActivity(intent);
+                    } else {
+                        toast(response.getString("mensaje"));
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error Volley", error.toString());
+            }
+        });
+
+        /*StringRequest stringRequest = new StringRequest(Request.Method.POST, URlUpdate, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     boolean login = jsonObject.getBoolean("login");
-
+                    //idcliente = jsonObject.getInt("idCliente");
+                    //Log.d("Idcliente", String.valueOf(idcliente));
                     if (login) {
-                        startActivity(new Intent(getApplicationContext(), Dashboard.class));
+                        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                        //intent.putExtra("idcliente", idcliente);
+                        startActivity(intent);
                     } else {
                         toast("Usuario o contraseña incorrecta");
                     }
@@ -92,8 +131,8 @@ public class Login extends AppCompatActivity {
                 parametros.put("claveAcceso", contrasena);
                 return parametros;
             }
-        };
-        Volley.newRequestQueue(getApplicationContext()).add(stringRequest);
+        };*/
+        Volley.newRequestQueue(getApplicationContext()).add(jsonObjectRequest);
     }
     private void toast(String mensaje){
         Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();

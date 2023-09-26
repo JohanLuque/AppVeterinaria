@@ -9,12 +9,17 @@ import android.widget.Button;
 
 public class Dashboard extends AppCompatActivity {
     Button btAbrirCliente, btAbrirMascota;
+    int idcliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         loadUI();
+        Bundle parametros = this.getIntent().getExtras();
+        if(parametros != null){
+            idcliente = parametros.getInt("idcliente");
+        }
         btAbrirCliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -24,7 +29,9 @@ public class Dashboard extends AppCompatActivity {
         btAbrirMascota.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrirActivity(RegistrarMascota.class);
+                Intent intent = new Intent(getApplicationContext(), RegistrarMascota.class);
+                intent.putExtra("idcliente", idcliente);
+                startActivity(intent);
             }
         });
     }
