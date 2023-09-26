@@ -2,10 +2,14 @@ package com.example.veterinaria;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -36,7 +40,18 @@ public class Listar extends AppCompatActivity {
         if(parametros != null){
             idcliente = parametros.getInt("idcliente");
             listarMascotas(idcliente);
-        }
+        }lvMascota.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                openInformation(idData.get(i));
+            }
+        });
+    }
+    private void openInformation(int idmascota){
+        Intent intent = new Intent(getApplicationContext(), DetalleMascota.class);
+        intent.putExtra("idmascota", idmascota);
+        startActivity(intent);
+
     }
     private void listarMascotas(int idcliente){
         listData.clear();

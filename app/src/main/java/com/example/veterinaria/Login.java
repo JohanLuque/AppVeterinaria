@@ -32,8 +32,6 @@ public class Login extends AppCompatActivity {
     EditText etDni, etContrasena;
     int idcliente;
     String dni, contrasena;
-    final String url ="http://192.168.1.109/veterinaria/controllers/cliente.php";
-    //final String url ="http://192.168.18.12:81/veterinaria/controllers/cliente.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +70,7 @@ public class Login extends AppCompatActivity {
         }
     }
     private void login(){
-        //String URlUpdate = Utilidades.URL + "cliente.php";
-        Uri.Builder urlnueva = Uri.parse(url).buildUpon();
+        Uri.Builder urlnueva = Uri.parse(Utilidades.URL+"cliente.php").buildUpon();
         urlnueva.appendQueryParameter("operacion", "login");
         urlnueva.appendQueryParameter("dni", dni);
         urlnueva.appendQueryParameter("claveAcceso", contrasena);
