@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -110,8 +111,9 @@ public class RegistarCliente extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                     reset();
-                    etApellidos.requestFocus();
                     Toast.makeText(getApplicationContext(), "guadado correctamente", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), Login.class));
+                    finish();
             }
         }, new Response.ErrorListener() {
             @Override

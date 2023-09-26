@@ -28,11 +28,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
-    Button btLogin;
+    Button btLogin, btAbrirRegistrarCliente;
     EditText etDni, etContrasena;
     int idcliente;
     String dni, contrasena;
-    final String url ="http://192.168.18.12:81/veterinaria/controllers/cliente.php";
+    final String url ="http://192.168.1.109/veterinaria/controllers/cliente.php";
+    //final String url ="http://192.168.18.12:81/veterinaria/controllers/cliente.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,11 +45,18 @@ public class Login extends AppCompatActivity {
                 validar();
             }
         });
+        btAbrirRegistrarCliente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), RegistarCliente.class));
+            }
+        });
     }
     private void loadUI(){
         btLogin = findViewById(R.id.btLogin);
         etContrasena = findViewById(R.id.etContrasena);
         etDni = findViewById(R.id.etDni);
+        btAbrirRegistrarCliente = findViewById(R.id.btAbrirRegistrarCliente);
     }
     private void  validar(){
         dni = etDni.getText().toString().trim();

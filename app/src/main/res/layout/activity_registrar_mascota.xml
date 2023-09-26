@@ -68,6 +68,7 @@
     <Spinner
         android:id="@+id/spRaza"
         android:layout_width="match_parent"
+        android:layout_marginBottom="20dp"
         android:layout_height="wrap_content" />
 
     <Button
