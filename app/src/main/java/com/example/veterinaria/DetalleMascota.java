@@ -2,6 +2,7 @@ package com.example.veterinaria;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -20,6 +22,7 @@ public class DetalleMascota extends AppCompatActivity {
     EditText etNombre, etColor, etGenero, etAnimal, etRaza;
     ImageView ivFotografia;
     int idmascota;
+    final String URLImage = "http://192.168.18.12:81/veterinaria/image/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,7 @@ public class DetalleMascota extends AppCompatActivity {
                     etColor.setText(response.getString("color"));
                     etGenero.setText(response.getString("genero"));
                     //fotografia = response.getString("fotografia");
-                    //obtenerImagen(fotografia);
+                    leerImagen(response.getString("fotografia"));
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -71,5 +74,27 @@ public class DetalleMascota extends AppCompatActivity {
             }
         });
         Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
+
+    public void leerImagen(String image){
+        String URLLeerImage= URLImage+image;
+        ImageRequest imageRequest = new ImageRequest(
+                URLLeerImage,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap response) {
+                        ivFotografia.setImageBitmap(response);
+                    }
+                }, 0,
+                0,
+                null,
+                null,
+                new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error", error.toString());
+            }
+        });
+        Volley.newRequestQueue(this).add(imageRequest);
     }
 }
